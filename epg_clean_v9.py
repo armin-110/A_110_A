@@ -23,7 +23,7 @@ import math
 from collections import defaultdict  # For word frequency
 from sklearn.feature_extraction.text import CountVectorizer
 import itertools
-#################################read form excell#############################
+#################################read form excell  #############################
 input0= pd.read_excel ('~/Documents/ای فیلم.xlsx')
 input1=pd.DataFrame()
 input1['نام برنامه']=list(itertools.chain(*input0.iloc[:, [1]].values.tolist()))
@@ -63,7 +63,7 @@ for c in range(len(input3)):
     similarity_vec_2.append([])
     tag_list.append([])
 
-#####################labling processs#####################
+#####################labling processs ########################
 for i in range(len(input3)):
     print(i)
     for j in range(len(input3)):
