@@ -24,7 +24,7 @@ from collections import defaultdict  # For word frequency
 from sklearn.feature_extraction.text import CountVectorizer
 import itertools
 #################################read form excell  #############################
-input0= pd.read_excel ('~/Documents/ای فیلم.xlsx')
+input0= pd.read_excel ('~/Documents/سلامت.xlsx')
 input1=pd.DataFrame()
 input1['نام برنامه']=list(itertools.chain(*input0.iloc[:, [1]].values.tolist()))
 #input1=input0.iloc[:, [1]]
@@ -39,6 +39,9 @@ input1['نام برنامه'] = input1['نام برنامه'].str.replace('«','
 input1['نام برنامه'] = input1['نام برنامه'].str.replace('»',' ')
 input1['نام برنامه'] = input1['نام برنامه'].str.replace('"',' ')
 input1['نام برنامه'] = input1['نام برنامه'].str.replace('\\',' ')
+input1['نام برنامه'] = input1['نام برنامه'].str.replace('ؤ','و')
+input1['نام برنامه'] = input1['نام برنامه'].str.replace('ادامه',' ')
+input1['نام برنامه'] = input1['نام برنامه'].str.replace('پشت صحنه',' ')
 #input1['نام برنامه'] = input1['نام برنامه'].str.replace('خلاصه',' ')
 #input1['نام برنامه'] = input1['نام برنامه'].str.replace('ادامه',' ')نمایش
 
@@ -121,11 +124,16 @@ df0['name0'] = df0['name0'].apply(lambda x: x.split('قسمت')[0])
 df0['name0'] = df0['name0'].apply(lambda x: x.split('فصل')[0])
 df0['name0'] = df0['name0'].apply(lambda x: x.split('شبکه')[0])
 df0['name0'] = df0['name0'].apply(lambda x: x.split('_')[0])
-df0['name0'] = df0['name0'].str.replace('خلاصه',' ')
-df0['name0'] = df0['name0'].str.replace('گزیده',' ')
+df0['name0'] = df0['name0'].apply(lambda x: x.split('/')[0])
+df0['name0'] = df0['name0'].apply(lambda x: x.split('گزیده')[0])
+df0['name0'] = df0['name0'].apply(lambda x: x.split('خلاصه')[0])
+#df0['name0'] = df0['name0'].str.replace('خلاصه',' ')
+#df0['name0'] = df0['name0'].str.replace('گزیده',' ')
 df0['name0'] = df0['name0'].str.replace('ادامه',' ')
 df0['name0'] = df0['name0'].str.replace('برنامه',' ')
 df0['name0'] = df0['name0'].str.replace('مجموعه',' ')
+
+
 #df0['name0'] = df0['name0'].apply(lambda x: x.split('خلاصه')[0])
 input4=list(itertools.chain(*df0.values.tolist())) 
 #print(input4)   
@@ -135,7 +143,7 @@ p=['ا', 'ب', 'پ', 'ت', 'ث', 'ج', 'چ', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز',
 d=0   
 for a in input4:
     b=list(str(a))
-#    print(b)
+#    print(b)/
     
     k=0     
     for j in p:
@@ -340,8 +348,9 @@ df['name'] = df['name'].apply(lambda x: x.split('قسمت')[0])
 df['name'] = df['name'].apply(lambda x: x.split('فصل')[0])
 df['name'] = df['name'].apply(lambda x: x.split('شبکه')[0])
 df['name'] = df['name'].apply(lambda x: x.split('_')[0])
-#df['name'] = df['name'].apply(lambda x: x.split('خلاصه')[0])
 df['name'] = df['name'].apply(lambda x: x.split('؛')[0])
+df['name'] = df['name'].apply(lambda x: x.split('گزیده')[0])
+df['name'] = df['name'].apply(lambda x: x.split('خلاصه')[0])
 output_vag_1=list(itertools.chain(*df.values.tolist()))
 
 for i in output_vag_1:
@@ -443,9 +452,10 @@ df2['name1'] = df2['name1'].apply(lambda x: x.split('نیمه اول')[0])
 df2['name1'] = df2['name1'].apply(lambda x: x.split('/')[0])
 df2['name1'] = df2['name1'].apply(lambda x: x.split('_')[0])
 df2['name1'] = df2['name1'].apply(lambda x: x.split(':')[0])
-
-df2['name1'] = df2['name1'].str.replace('خلاصه',' ')
-df2['name1'] = df2['name1'].str.replace('گزیده',' ')
+df2['name1'] = df2['name1'].apply(lambda x: x.split('خلاصه')[0])
+df2['name1'] = df2['name1'].apply(lambda x: x.split('گزیده')[0])
+#df2['name1'] = df2['name1'].str.replace('خلاصه',' ')
+#df2['name1'] = df2['name1'].str.replace('گزیده',' ')
 
 #df2['name'] = df2['name'].apply(lambda x: x.split('خلاصه')[0])
 df2['name1'] = df2['name1'].apply(lambda x: x.split('؛')[0])
@@ -454,6 +464,12 @@ for i in range(len(intersect_BoW_1)):
     if(len(intersect_BoW_1[i])<1):
         intersect_BoW_1[i]=intersect_BoW[i]
 
+df3=pd.DataFrame()
+df3['name2']=intersect_BoW_1
+df3['name2'] = df3['name2'].str.replace('خلاصه',' ')
+df3['name2'] = df3['name2'].str.replace('گزیده',' ')
+
+intersect_BoW_1=list(itertools.chain(*df3.values.tolist()))
 
 
 ###################################################return process ##################
@@ -524,7 +540,7 @@ output_1['tag']=tag_list
 
 #output_1['similarity_vec_2']=similarity_vec_2[0]
 
-output_1.to_excel('~/Documents/output_ای فیلم.xlsx') 
+output_1.to_excel('~/Documents/output_سلامت.xlsx') 
 error_finding['input']=input
 error_finding['output_vag']=output_vag
 error_finding['return_name']=return_name
@@ -533,7 +549,7 @@ error_finding['intersect_BoW']=intersect_BoW
 #error_finding['similarity_vec']=similarity_vec[250]
 #error_finding['similarity_vec_BoW']=similarity_vec_BoW[355]
 #error_finding['similarity_vec_BoW']=similarity_vec_BoW[1]
-error_finding.to_excel('~/Documents/error_finding_ای فیلم.xlsx')
+error_finding.to_excel('~/Documents/error_finding_سلامت.xlsx')
 print('finished')
 #output_1['similarity_vec']=similarity_vec[268]
 #vec['BW_remove_duplicates']=BW_remove_duplicates
